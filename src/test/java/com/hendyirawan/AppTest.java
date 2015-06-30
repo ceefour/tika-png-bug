@@ -1,6 +1,7 @@
 package com.hendyirawan;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
@@ -28,10 +29,11 @@ public class AppTest
 
     @Test
     public void parsePng() throws IOException, TikaException, SAXException {
+        final Tika tika = new Tika();
         final byte[] origImage = FileUtils.readFileToByteArray(new File("festival-anak-bertanya-2015_o.png"));
         final String contentType = "image/png";
         final Metadata metadata = new Metadata();
-        final Parser parser = new ImageParser();
+        final Parser parser = tika.getParser(); //won't work: new ImageParser();
         final ParseContext parseContext = new ParseContext();
         final DefaultHandler handler = new DefaultHandler();
         try (final ByteArrayInputStream stream = new ByteArrayInputStream(origImage)) {
